@@ -1,0 +1,73 @@
+---
+title: "mass"
+author: "SaiNagaChandraVivekGarimella"
+date: "August 16, 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+
+main<-read_csv('C:/Users/garim/OneDrive/Desktop/NEU/Introduction to Data Management and Processing/data sets/cnn-school-shooting-data/CNN_School_Shooting_File_7_26_2019.csv')
+
+main<-drop_na(main)
+main
+#YEAR SMOOTH
+main %>% group_by(year) %>% summarise(total=n()) %>% ggplot(mapping = aes(x=year,y=total))+geom_point()+geom_smooth()
+
+main
+
+#YEAR BAR GRAPH
+main %>% group_by(year) %>% summarise(count=n()) %>% ggplot(mapping = aes(x=year,y=count,fill=as.factor(year)))+geom_bar(stat = 'identity')+labs(fill='YEAR')
+
+main %>% group_by(school) %>% summarise(times=n()) %>% arrange(desc(times))%>% top_n(3) %>% ggplot(mapping = aes(x=school,y=times,fill=school))+geom_bar(stat = 'identity')+coord_flip()
+
+#CITIES
+main %>% group_by(city) %>% summarise(number_of_times=n()) %>% arrange(desc(number_of_times))%>% top_n(5) %>% ggplot(mapping = aes(x=city,y=number_of_times,fill=as.factor(number_of_times)))+geom_bar(stat = 'identity')+coord_flip()+labs(fill='Number of Times')
+
+#STATES
+main %>% group_by(state) %>% summarise(number_of_times=n()) %>% arrange(desc(number_of_times))%>% top_n(5) %>% ggplot(mapping = aes(x=state,y=number_of_times,fill=as.factor(number_of_times)))+geom_bar(stat = 'identity')+coord_flip()+labs(fill='Number of Times')
+
+#urbanrural
+main %>% group_by(urbanrural) %>% summarise(number=n()) %>% arrange(desc(number))%>% top_n(5) %>% ggplot(mapping = aes(x=urbanrural,y=number,fill=urbanrural))+geom_bar(stat = 'identity')+coord_flip()+labs(fill='Location Type')
+
+#Race
+main %>% group_by(race) %>% summarise(counting=n()) %>% arrange(desc(counting))%>% top_n(5) %>% ggplot(mapping = aes(x=race,y=counting,fill=race))+geom_bar(stat = 'identity')+coord_flip()+labs(fill='Race')
+
+#SCHOOL TYPE
+main %>% group_by(type) %>% summarise(total=n()) %>% arrange(desc(total))%>% top_n(5) %>% ggplot(mapping = aes(x=type,y=total,fill=type))+geom_bar(stat = 'identity')+coord_flip()+labs(fill='School Type')
+
+main<-main %>% mutate(month=str_sub(main[['date']],-6,-4))
+main
+
+#MONTHS EACH SCHOOL TYPE
+main %>% group_by(month,type) %>% summarise(times_in_month=n()) %>% arrange(desc(times_in_month)) %>% top_n(5) %>% ggplot(mapping = aes(x=month,y=times_in_month,fill=month))+geom_bar(stat = 'identity')+facet_wrap(~type)+coord_flip()
+
+#Race in each school type
+main %>% group_by(race,type) %>% summarise(times_by_race=n()) %>% arrange(desc(times_by_race)) %>% top_n(5) %>% ggplot(mapping = aes(x=race,y=times_by_race,fill=race))+geom_bar(stat = 'identity')+facet_wrap(~type)+coord_flip()
+
+#years in school type
+main %>% group_by(year,type) %>% summarise(times_in_year=n()) %>% arrange(desc(times_in_year)) %>% top_n(5) %>% ggplot(mapping = aes(x=year,y=times_in_year,fill=as.factor(year)))+geom_bar(stat = 'identity')+facet_wrap(~type)+coord_flip()+labs(fill='YEAR')
+
+ # urbanrural vs school type
+main %>% group_by(urbanrural,type) %>% summarise(number=n()) %>% arrange(desc(number)) %>% top_n(5) %>% ggplot(mapping = aes(x=urbanrural,y=number,fill=urbanrural))+geom_bar(stat = 'identity')+facet_wrap(~type)+coord_flip()
+
+#VICTIMS IN EACH SCHOOL TYPE
+main %>% group_by(type) %>% summarise(total_victims=sum(victims)) %>% arrange(desc(total_victims)) %>% top_n(5) %>% ggplot(mapping = aes(x=type,y=total_victims,fill=type))+geom_bar(stat = 'identity')+coord_flip()
+
+#state vs type
+main %>% group_by(state,type) %>% summarise(total_state=n()) %>% arrange(desc(total_state)) %>% group_by(type) %>% top_n(3) %>% ggplot(mapping = aes(x=state,y=total_state,fill=state))+geom_bar(stat = 'identity')+facet_wrap(~type)+coord_flip()
+
+#CITY VS TYPE
+main %>% group_by(city,type) %>% summarise(total_city=n()) %>% arrange(desc(total_city)) %>% group_by(type) %>% top_n(1) %>% ggplot(mapping = aes(x=city,y=total_city,fill=city))+geom_bar(stat = 'identity')+facet_wrap(~type)+coord_flip()
+
+
+```
+
