@@ -41,4 +41,4 @@ Januray is the month in which more incidents took place in high schools, where a
 ![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/schooltypemonth.jpeg)
 
 the year in which more number of incidents tooks place is 2016 for High schools,2018 for middle schools.
-![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/year_school%20type.jpeg)
+![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/Year%40!.jpeg)
