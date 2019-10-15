@@ -15,7 +15,7 @@ Highest number of incidents took place in year 2016. So the change in safety mea
 ![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/TOtal%20Years.jpeg)
 
 Incidents took place more than once in three schools - Huffman high school, Horizon elementary school, Booker T.Washington High School. The surroundings around these schools and issues that concern people of that area or students of the schools must be identified to find the root cause of such incidents to some extent.
-![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/schools%20multiple%20incidents.jpeg)
+![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/schools%20multiple%202.jpeg)
 
 Cities and States with most number of incidents are identified. The safety measures for students in those place must be reviewed and enough steps must be taken so that no such incidents will take place in future.
 ![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/city%20vs%20time.jpeg)
