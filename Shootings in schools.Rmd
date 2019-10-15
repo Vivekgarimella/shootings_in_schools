@@ -1,0 +1,63 @@
+---
+title: "Shootings in Schools 2009-2018"
+author: "SaiNagaChandraVivekGarimella"
+date: "October 14, 2019"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+main<-read_csv('C:/Users/garim/OneDrive/Desktop/NEU/Introduction to Data Management and Processing/data sets/cnn-school-shooting-data/CNN_School_Shooting_File_7_26_2019.csv')
+main<-drop_na(main)
+main
+#YEAR SMOOTH
+main %>% group_by(year) %>% summarise(total=n()) %>% ggplot(mapping = aes(x=year,y=total))+geom_point()+geom_smooth()+labs(title = 'Yearly Trend',x='Number of incidents',y='Year')
+main
+#YEAR BAR GRAPH
+main %>% group_by(year) %>% summarise(count=n()) %>% ggplot(mapping = aes(x=year,y=count,fill=as.factor(year)))+geom_bar(stat = 'identity')+labs(x='Year',y='Number of incidents',fill='YEAR',title = 'Year vs number of incidents')+geom_text(aes(x =year,y = count +1, label = round(count, 2)))
+
+main %>% group_by(school) %>% summarise(times=n()) %>% arrange(desc(times))%>% top_n(3) %>% ggplot(mapping = aes(x=school,y=times,fill=school))+geom_bar(stat = 'identity')+coord_flip()+labs(title = 'Schools where incidents took place more than once' , x='number of times incident took place' , y='Name of the school')+geom_text(aes(x =school,y = times +0.1, label = round(times, 2)))
+
+#CITIES
+main %>% group_by(city) %>% summarise(number_of_times=n()) %>% arrange(desc(number_of_times))%>% top_n(5) %>% ggplot(mapping = aes(x=city,y=number_of_times,fill=as.factor(number_of_times)))+geom_bar(stat = 'identity')+coord_flip()+labs(fill='Number of Times')+labs(title = 'Cities with most number of incidents',x='City',y='Number of incidents')+geom_text(aes(x =city,y = number_of_times +0.1, label = round(number_of_times, 2)))
+#STATES
+main %>% group_by(state) %>% summarise(number_of_times=n()) %>% arrange(desc(number_of_times))%>% top_n(5) %>% ggplot(mapping = aes(x=state,y=number_of_times,fill=as.factor(number_of_times)))+geom_bar(stat = 'identity')+coord_flip()+labs(fill='Number of Times')+geom_text(aes(x =state,y = number_of_times +1, label = round(number_of_times, 2)))+labs(fill='Number of Times',title = 'States with most number of incidents',y='number of incidents')
+#urbanrural
+main %>% group_by(urbanrural) %>% summarise(number=n()) %>% arrange(desc(number)) %>% ggplot(mapping = aes(x=urbanrural,y=number,fill=urbanrural))+geom_bar(stat = 'identity')+coord_flip()+labs(title = "Locality vs Number of incidents",x="Locality",y="number of incidents",fill='Location Type')+geom_text(aes(x =urbanrural,y = number +2, label = round(number, 2)))
+#Race
+main %>% group_by(race) %>% summarise(counting=n()) %>% arrange(desc(counting))%>% ggplot(mapping = aes(x=race,y=counting,fill=race))+geom_bar(stat = 'identity')+coord_flip()+labs(title='Number of shootings committed by people of different races',y='number of incidents',fill='Race')+geom_text(aes(x =race ,y = counting +2, label = round(counting, 2)))
+#SCHOOL TYPE
+main %>% group_by(type) %>% summarise(total=n()) %>% arrange(desc(total))%>% top_n(5) %>% ggplot(mapping = aes(x=type,y=total,fill=type))+geom_bar(stat = 'identity')+coord_flip()+labs(title='Number of incidents in different types of Schools',x='Schoole type',y='number of incidents',fill='School Type')+geom_text(aes(x =type ,y = total +4, label = round(total, 2)))
+main<-main %>% mutate(month=str_sub(main[['date']],-6,-4))
+main
+#MONTHS EACH SCHOOL TYPE
+main %>% group_by(month,type) %>% summarise(times_in_month=n()) %>% arrange(desc(times_in_month))  %>% ggplot(mapping = aes(x=month,y=times_in_month,fill=month))+geom_bar(stat = 'identity')+facet_wrap(~type)+coord_flip()+geom_text(aes(x =month ,y = times_in_month +1, label = round(times_in_month, 4)))+labs(title='Month vs Number of incident in each school type',sx='Month' , y= 'Number of incidents')
+
+#Race in each school type
+main %>% group_by(race,type) %>% summarise(times_by_race=n()) %>% arrange(desc(times_by_race))  %>% ggplot(mapping = aes(x=race,y=times_by_race,fill=race))+geom_bar(stat = 'identity')+facet_wrap(~type)+coord_flip()+geom_text(aes(x =race ,y = times_by_race+4, label = round(times_by_race, 2)))+labs(title='Race vs Number of incident in each school type',sx='Race' , y= 'Number of incidents')
+
+
+
+#years in school type
+main %>% group_by(year,type) %>% summarise(times_in_year=n()) %>% arrange(desc(times_in_year))  %>% ggplot(mapping = aes(x=year,y=times_in_year,fill=as.factor(year)))+geom_bar(stat = 'identity')+facet_wrap(~type)+coord_flip()+labs(fill='YEAR')+labs(title='Number of incidents occurred at different school types in each year',y='number of incidents',fill='Year')+geom_text(aes(x =year ,y = times_in_year +2, label = round(times_in_year, 2)))
+ # urbanrural vs school type
+main %>% group_by(urbanrural,type) %>% summarise(number=n()) %>% arrange(desc(number))  %>% ggplot(mapping = aes(x=urbanrural,y=number,fill=urbanrural))+geom_bar(stat = 'identity')+facet_wrap(~type)+coord_flip()+labs(title='Locality vs Number of incidents occurred at different school types',y='number of incidents',fill='Locality')+geom_text(aes(x =urbanrural ,y = number +4, label = round(number, 2)))
+#VICTIMS IN EACH SCHOOL TYPE
+main %>% gather(key='victims',value='victims_count',killed,injured) %>% group_by(type,victims) %>% summarise(total_victims=sum(victims_count)) %>% arrange(desc(total_victims)) %>% top_n(5)%>% ggplot(mapping = aes(x=type,y=total_victims,fill=victims))+geom_bar(stat = 'identity',position="dodge")+coord_flip()+labs(title='Number of victims in each school type',x='School Type' , y= 'Number of victims')+geom_text(aes(x =type ,y = total_victims +8, label = round(total_victims, 2)), position = position_dodge(0.9),vjust = 0.5)
+#state vs type
+main %>% group_by(state,type) %>% summarise(total_state=n()) %>% arrange(desc(total_state)) %>% group_by(type)%>% top_n(3)%>% ggplot(mapping = aes(x=state,y=total_state,fill=state))+geom_bar(stat = 'identity')+facet_wrap(~type)+coord_flip()+geom_text(aes(x =state ,y = total_state +2, label = round(total_state, 2)))
+```
+```{r}
+one<-main %>% gather(key='victims',value='victims_count',killed,injured)
+
+```
+
