@@ -12,7 +12,7 @@ Observed that number of incidents had gradually increased from 2012.
 ![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/yearly%20trend.jpeg)
 
 Highest number of incidents took place in year 2016. So the change in safety measures in schools may also have an impact.
-![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/Year_VS_times.jpeg)
+![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/TOtal%20Years.jpeg)
 
 Incidents took place more than once in three schools - Huffman high school, Horizon elementary school, Booker T.Washington High School. The surroundings around these schools and issues that concern people of that area or students of the schools must be identified to find the root cause of such incidents to some extent.
 ![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/school_times.jpeg)
