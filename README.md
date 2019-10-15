@@ -35,7 +35,7 @@ Whites have committed more number of shootings , where blacks stand in second po
 ![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/race%20vs%20number.jpeg)
 
 But blacks have committed more number of shootings in High schools .
-![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/raceschooltype.jpeg)
+![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/Race%20school%20type.jpeg)
 
 Januray is the month in which more incidents took place in high schools, where as Feb and may in case of Elementary schools.Feb in case of Middle schools.
 ![](https://github.com/Vivekgarimella/shootings_in_schools/blob/master/visualizations/schooltypemonth.jpeg)
